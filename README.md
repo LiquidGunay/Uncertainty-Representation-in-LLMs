@@ -51,23 +51,21 @@ I refer to this direction informally as an **uncertainty direction**, though a m
 
 ## Visualizations
 
-The main visualization projects each hidden state into a 2D slice:
+The main visualization projects each hidden state into a 2D/3D slice of the residual stream.
 
-* The y-axis is the classifier margin: distance from the linear decision boundary.
-* The x-axis is the first principal component in the subspace orthogonal to the probe direction.
-* Points are colored by whether the answer was correct.
+The probe direction defines the classifier margin: how far a hidden state is from the linear decision boundary. I then look at principal components in the subspace orthogonal to this probe direction, which helps separate the correctness-predictive direction from other high-variance directions in the residual stream.
 
-This makes it possible to separate the probe’s correctness direction from other high-variance directions in the residual stream.
+### Probe performance
 
-Example plots included in the repo:
+<p align="center">
+  <img src="roc_pr_curves.png" width="700" alt="ROC and precision-recall curves for the correctness probe">
+</p>
 
-```markdown
-![Margin vs orthogonal PC directions](projection_margin_vs_pc12_3d.png)
+### Margin vs orthogonal principal components
 
-![ROC and PR curves](roc_pr_curves.png)
-
-![Margin vs PC1 by length](projection_margin_vs_pc1_by_length.png)
-```
+<p align="center">
+  <img src="projection_margin_vs_pc12_3d.png" width="750" alt="Classifier margin plotted against orthogonal principal components">
+</p>
 
 ## Confound checks
 
@@ -87,6 +85,13 @@ However, length was more strongly correlated with one of the principal component
 Spearman(PC1⊥, length):    r = -0.377, p = 4.02e-162
 Spearman(PC2⊥, length):    r = -0.093, p = 8.10e-11
 ```
+<p align="center">
+  <img src="projection_margin_vs_pc1_by_length.png" width="700" alt="Probe margin and orthogonal PC1 colored by response length">
+</p>
+
+<p align="center">
+  <img src="projection_margin_vs_pc2_by_length.png" width="700" alt="Probe margin and orthogonal PC2 colored by response length">
+</p>
 
 This suggests that length is present in the representation, but it does not appear to explain the main correctness margin.
 
